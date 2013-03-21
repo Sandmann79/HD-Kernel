@@ -2045,6 +2045,34 @@ static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
 	.host_wakeup_pin = VISION_GPIO_BT_HOST_WAKE,
 };
 
+static struct resource bluesleep_resources[] = {
+	{
+		.name	= "gpio_host_wake",
+        .start  = VISION_GPIO_BT_HOST_WAKE,
+        .end    = VISION_GPIO_BT_HOST_WAKE,
+		.flags	= IORESOURCE_IO,
+	},
+	{
+		.name	= "gpio_ext_wake",
+        .start  = VISION_GPIO_BT_CHIP_WAKE,
+        .end    = VISION_GPIO_BT_CHIP_WAKE,
+		.flags	= IORESOURCE_IO,
+	},
+	{
+		.name	= "host_wake",
+        .start  = MSM_GPIO_TO_INT(VISION_GPIO_BT_HOST_WAKE),
+        .end    = MSM_GPIO_TO_INT(VISION_GPIO_BT_HOST_WAKE),
+		.flags	= IORESOURCE_IRQ,
+	},
+};
+
+static struct platform_device msm_bluesleep_device = {
+	.name   = "bluesleep_bcm",
+	.id		= -1,
+	.num_resources	= ARRAY_SIZE(bluesleep_resources),
+	.resource	= bluesleep_resources,
+};
+
 #ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 static struct bcm_bt_lpm_platform_data bcm_bt_lpm_pdata = {
 	.gpio_wake = VISION_GPIO_BT_CHIP_WAKE,
@@ -3142,6 +3170,10 @@ static struct platform_device *devices[] __initdata = {
         &htc_battery_pdev,
         &msm_ebi0_thermal,
         &msm_ebi1_thermal,
+
+#ifdef CONFIG_BT_MSM_SLEEP
+        &msm_bluesleep_device,
+#endif
 #ifdef CONFIG_SERIAL_MSM_HS
         &msm_device_uart_dm1,
 #endif
