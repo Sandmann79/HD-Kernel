@@ -479,10 +479,10 @@ static ssize_t vision_atmel_virtual_keys_show(struct kobject *kobj,
 			struct kobj_attribute *attr, char *buf)
 {
 	return sprintf(buf,
-		__stringify(EV_KEY) ":" __stringify(KEY_HOME)	":65:845:80:50"
-		":" __stringify(EV_KEY) ":" __stringify(KEY_MENU)	":180:845:83:50"
-		":" __stringify(EV_KEY) ":" __stringify(KEY_BACK)	":310:845:88:50"
-		":" __stringify(EV_KEY) ":" __stringify(KEY_SEARCH) ":445:845:91:50"
+               __stringify(EV_KEY) ":" __stringify(KEY_HOME)       ":47:830:74:50"
+		":" __stringify(EV_KEY) ":" __stringify(KEY_MENU)   ":155:830:80:50"
+		":" __stringify(EV_KEY) ":" __stringify(KEY_BACK)   ":337:830:90:50"
+		":" __stringify(EV_KEY) ":" __stringify(KEY_SEARCH) ":434:830:60:50"
 		"\n");
 }
 
@@ -1362,10 +1362,10 @@ static int marimba_tsadc_exit(void)
 
 
 static struct msm_ts_platform_data msm_ts_data = {
-	.min_x          = 0,
-	.max_x          = 4096,
-	.min_y          = 0,
-	.max_y          = 4096,
+	.min_x          = 284,
+	.max_x          = 3801,
+	.min_y          = 155,
+	.max_y          = 3929,
 	.min_press      = 0,
 	.max_press      = 255,
 	.inv_x          = 4096,
@@ -3302,7 +3302,7 @@ static void __init vision_init(void)
 	vision_wifi_init();
 	msm_init_pmic_vibrator(3000);
 }
-/*
+
 static unsigned pmem_sf_size = MSM_PMEM_SF_SIZE;
 static int __init pmem_sf_size_setup(char *p)
 {
@@ -3310,7 +3310,6 @@ static int __init pmem_sf_size_setup(char *p)
 	return 0;
 }
 early_param("pmem_sf_size", pmem_sf_size_setup);
-*/
 
 static unsigned fb_size = MSM_FB_SIZE;
 static int __init fb_size_setup(char *p)
@@ -3366,6 +3365,7 @@ static void __init size_pmem_devices(void)
 {
 #ifdef CONFIG_ANDROID_PMEM
 	size_pmem_device(&android_pmem_adsp_pdata, MSM_PMEM_ADSP_BASE, pmem_adsp_size);
+	size_pmem_device(&android_pmem_pdata, MSM_PMEM_SF_BASE, pmem_sf_size);
 #endif
 }
 
@@ -3383,6 +3383,7 @@ static void __init reserve_pmem_memory(void)
 	reserve_memory_for(&android_pmem_adsp_pdata);
 	reserve_memory_for(&android_pmem_pdata);
 #endif
+        msm7x30_reserve_table[MEMTYPE_EBI1].size += PMEM_KERNEL_EBI1_SIZE;
 }
 
 static void __init msm7x30_calculate_reserve_sizes(void)

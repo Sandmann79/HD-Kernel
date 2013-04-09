@@ -163,7 +163,31 @@ config CPU_FREQ_DEFAULT_GOV_SCARY
 	select CPU_FREQ_GOV_SCARY
 	help
 	A modified ondemand governor.
-        
+
+config CPU_FREQ_DEFAULT_GOV_INTELLIDEMAND
+ 	bool "intellidemand"
+ 	select CPU_FREQ_GOV_INTELLIDEMAND
+ 	help
+ 	  Use the CPUFreq governor 'intellidemand' as default.
+
+config CPU_FREQ_DEFAULT_GOV_LULZACTIVE
+ 	bool "lulzactive"
+ 	select CPU_FREQ_GOV_LULZACTIVE
+ 	help
+ 	  Use the CPUFreq governor 'lulzactive' as default.
+
+config CPU_FREQ_DEFAULT_GOV_LIONHEART
+ 	bool "lionheart"
+ 	select CPU_FREQ_GOV_LIONHEART
+ 	help
+ 	  Use the CPUFreq governor 'lionheart' as default.
+
+config CPU_FREQ_DEFAULT_GOV_SAVAGEDZEN
+	bool "SavagedZen"
+	select CPU_FREQ_GOV_SAVAGEDZEN
+	help
+	  Use the CPUFreq governor 'savagedzen' as default.
+       
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
@@ -322,6 +346,31 @@ config CPU_FREQ_GOV_SCARY
   depends on CPU_FREQ
 	help
 	  'scary' - this governor is a modified ondemand.
+	   If in doubt, say N.
+
+config CPU_FREQ_GOV_LULZACTIVE
+	tristate "'lulzactive' cpufreq governor"
+	depends on CPU_FREQ
+	help
+		'lulzactive' - a "funny" optimized governor
+
+config CPU_FREQ_GOV_LIONHEART
+	tristate "'lionheart' cpufreq governor"
+	depends on CPU_FREQ
+	help
+		'lionheart' - a "lion" optimized governor
+
+config CPU_FREQ_GOV_INTELLIDEMAND
+	tristate "'intellidemand' cpufreq governor"
+	depends on CPU_FREQ
+	help
+	  'intellidemand' - a "slightly more agressive smart" optimized governor!
+
+config CPU_FREQ_GOV_SAVAGEDZEN
+	tristate "'savagedzen' cpufreq governor"
+	depends on CPU_FREQ
+	help
+	   'Savaged-Zen' - a "smartass" based governor
 	   If in doubt, say N.
 
 config SEC_DVFS

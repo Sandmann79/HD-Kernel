@@ -39,7 +39,7 @@ extern struct platform_device msm_device_mddi0;
 #define MSM_LINUX_BASE1		0x04000000
 #define MSM_LINUX_SIZE1		0x0C000000
 #define MSM_LINUX_BASE2		0x20000000
-#define MSM_LINUX_SIZE2		0x10000000
+#define MSM_LINUX_SIZE2		0x0BA00000
 
 #define MSM_GPU_MEM_BASE	0x00100000
 #define MSM_GPU_MEM_SIZE	0x00300000
@@ -47,19 +47,19 @@ extern struct platform_device msm_device_mddi0;
 #define MSM_RAM_CONSOLE_BASE	0x00500000
 #define MSM_RAM_CONSOLE_SIZE	0x00100000
 
-#define MSM_PMEM_ADSP_SIZE	0x01E00000
+#define MSM_PMEM_ADSP_BASE	0x2BA00000
+#define MSM_PMEM_ADSP_SIZE	0x02C00000
 
 #define MSM_PMEM_AUDIO_SIZE	0x00200000
 
+#define PMEM_KERNEL_EBI1_BASE   0x2D700000
 #define PMEM_KERNEL_EBI1_SIZE   0x00600000
 
-#define MSM_PMEM_SF_SIZE	0x1C00000
+#define MSM_PMEM_SF_BASE        0x2DD00000
+#define MSM_PMEM_SF_SIZE	0x02000000
 
-#ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
-#define MSM_FB_SIZE	0x465000
-#else
-#define MSM_FB_SIZE	0x2EE000
-#endif
+#define MSM_FB_SIZE		0x00300000
+#define MSM_FB_BASE		0x2FD00000
 
 #define VISION_GPIO_WIFI_IRQ             147
 #define VISION_GPIO_WIFI_SHUTDOWN_N       39
@@ -194,11 +194,13 @@ unsigned int vision_get_engineerid(void);
 
 int vision_init_mmc(unsigned int sys_rev);
 void __init vision_audio_init(void);
-int __init vision_init_panel(void);
 int __init vision_init_keypad(void);
 int __init vision_wifi_init(void);
 #ifdef CONFIG_MICROP_COMMON
 void __init vision_microp_init(void);
 #endif
-
+int __init vision_init_panel(void);
+#ifdef CONFIG_USB_ACCESSORY_DETECT_BY_ADC
+int htc_get_usb_accessory_adc_level(uint32_t *buffer);
+#endif
 #endif /* __ARCH_ARM_MACH_MSM_BOARD_VISION_H */

@@ -175,14 +175,12 @@ static inline cputime64_t get_cpu_idle_time_jiffy(unsigned int cpu,
 
 static inline cputime64_t get_cpu_idle_time(unsigned int cpu, cputime64_t *wall)
 {
-    u64 idle_time = get_cpu_idle_time_us(cpu, NULL);
+    u64 idle_time = get_cpu_idle_time_us(cpu, wall);
 
-	if (idle_time == -1ULL)
-		return get_cpu_idle_time_jiffy(cpu, wall);
-	else
-		idle_time += get_cpu_iowait_time_us(cpu, wall);
+    if (idle_time == -1ULL)
+	return get_cpu_idle_time_jiffy(cpu, wall);
 
-	return idle_time;
+    return idle_time;
 }
 
 static inline cputime64_t get_cpu_iowait_time(unsigned int cpu, cputime64_t *wall)
@@ -773,10 +771,11 @@ static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
 
 static int __init cpufreq_gov_dbs_init(void)
 {
+    cputime64_t wall;
     u64 idle_time;
     int cpu = get_cpu();
 
-    idle_time = get_cpu_idle_time_us(cpu, NULL);
+    idle_time = get_cpu_idle_time_us(cpu, &wall);
     put_cpu();
     if (idle_time != -1ULL) {
 	/* Idle micro accounting is supported. Use finer thresholds */
